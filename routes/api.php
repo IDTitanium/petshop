@@ -37,6 +37,6 @@ Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function () {
  * Admin Routes
  */
 Route::post('/v1/admin/login', [AdminAuthController::class, 'login']);
-Route::group(['prefix' => 'v1/user', 'middleware' => ['auth:api', 'admin']], function () {
+Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], function () {
     Route::get('/users', [UserAccountController::class, 'getUsers']);
 });

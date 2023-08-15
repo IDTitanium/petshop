@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::query()->truncate();
+        User::whereIsAdmin(false)->delete();
 
         User::factory(10)->create();
     }
