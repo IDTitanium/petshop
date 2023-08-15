@@ -23,7 +23,8 @@ class AdminUserSeeder extends Seeder
             'last_name' => fake()->lastName(),
             'password' => Hash::make('admin'),
             'address' => fake()->address(),
-            'phone_number' => fake()->phoneNumber()
+            'phone_number' => fake()->phoneNumber(),
+            'is_admin' => true
         ]);
     }
 }

@@ -11,3 +11,7 @@
 - Run `petshop_php artisan key:generate`. To Setup application key in the environment variables.
 - Run `petshop_php artisan jwt:secret`. This is to generate a jwt secret. You should see the `JWT_SECRET` key in your `.env` file. You can manually add it if not found.
 - Run `petshop_php artisan db:seed`. This will seed the required user data into your database.
+
+### Running Tests
+
+A note on running the tests. The test files use a trait known as `RefreshDatabase`. This trait clears the database after each iteration of the test. Hence, if you do not want you database to be cleared, ensure you create a `.env.testing` file with another database that will be used for testing.
