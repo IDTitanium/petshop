@@ -1,0 +1,63 @@
+version: "3"
+services:
+  petshop_app:
+    container_name: petshop_app
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    expose:
+      - 9000
+    volumes:
+      - .:/usr/src/app
+      - ./public:/usr/src/app/public
+    depends_on:
+      - petshopdb
+      - petshop_redis
+    networks:
+      - app_network
+
+  petshop_nginx:
+    container_name: petshop_nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+    - ./public:/usr/src/app/public
+    ports:
+      - 8000:80
+    depends_on:
+      - petshop_app
+    environment:
+      NGINX_FPM_HOST: petshop_app
+      NGINX_ROOT: /usr/src/app/public
+    networks:
+      - app_network
+
+  petshopdb:
+    container_name: petshopdb
+    image: 'mysql/mysql-server:8.0'
+    restart: always
+    volumes:
+      - './storage/db-data:/var/lib/mysql'
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: petshop
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_HOST: '%'
+    networks:
+      - app_network
+
+  petshop_redis:
+    container_name: petshop_redis
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
