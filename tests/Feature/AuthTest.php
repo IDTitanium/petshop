@@ -48,4 +48,21 @@ class AuthTest extends TestCase
         $response->assertSuccessful();
         $response->assertSeeText('token');
     }
+
+    /**
+     * Cannot login to admin section with non admin account
+     */
+    public function test_cannot_login_to_admin_with_non_admin_account(): void
+    {
+        User::factory(1)->create();
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => User::first()->email,
+            'password' => 'userpassword'
+        ]);
+
+        $response->assertUnauthorized();
+        $response->assertDontSeeText('token');
+    }
+
+
 }

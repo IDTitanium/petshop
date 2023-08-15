@@ -10,3 +10,4 @@
 - Run `petshop_php artisan migrate`. This should run the migration to setup the database. Notice that we are using the alias defined in the previous step.
 - Run `petshop_php artisan key:generate`. To Setup application key in the environment variables.
 - Run `petshop_php artisan jwt:secret`. This is to generate a jwt secret. You should see the `JWT_SECRET` key in your `.env` file. You can manually add it if not found.
+- Run `petshop_php artisan db:seed`. This will seed the required user data into your database.

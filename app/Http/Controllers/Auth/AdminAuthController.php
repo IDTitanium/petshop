@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class UserAuthController extends Controller
+class AdminAuthController extends Controller
 {
     public function login(LoginRequest $request): JsonResponse {
         $credentials = $request->validated();
@@ -18,7 +18,11 @@ class UserAuthController extends Controller
             return $this->sendApiResponse(false, Response::HTTP_UNAUTHORIZED, __('messages.unauthorized'));
         }
 
-        return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.login_successful'),
-                ['user' => UserResource::make(auth()->user()), 'token' => $token]);
+        if (!auth()->user()->is_admin) {
+            return $this->sendApiResponse(false, Response::HTTP_UNAUTHORIZED, __('messages.unauthorized'));
+        }
+
+        return $this->sendApiResponse(true, Response::HTTP_OK, "Login Successful",
+                ['admin' => UserResource::make(auth()->user()), 'token' => $token]);
     }
 }
