@@ -40,7 +40,7 @@ class AuthTest extends TestCase
     /**
      * Can login with valid credentials
      */
-    public function test_cannot_login_valid_credentials(): void
+    public function test_can_login_valid_credentials(): void
     {
         User::factory(1)->create();
         $response = $this->post('/api/v1/user/login', [
