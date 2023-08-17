@@ -15,3 +15,5 @@
 ### Running Tests
 
 A note on running the tests. The test files use a trait known as `RefreshDatabase`. This trait clears the database after each iteration of the test. Hence, if you do not want you database to be cleared, ensure you create a `.env.testing` file with another database that will be used for testing.
+
+You can run `petshop_php artisan test`. To run all tests.

@@ -39,4 +39,5 @@ Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function () {
 Route::post('/v1/admin/login', [AdminAuthController::class, 'login']);
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], function () {
     Route::get('/users', [UserAccountController::class, 'getUsers']);
+    Route::put('/user-edit/{uuid}', [UserAccountController::class, 'editUser']);
 });
