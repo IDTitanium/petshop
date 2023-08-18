@@ -24,14 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/v1/user/login', [UserAuthController::class, 'login']);
 
 Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function () {
-    // Route::get('', []);
-    // Route::delete('', []);
     Route::get('orders', []);
-    // Route::post('create', []);
-    // Route::post('forgot-password', []);
     Route::get('logout', [UserAuthController::class, 'logout']);
-    // Route::post('reset-password-token', []);
-    // Route::put('edit', []);
 });
 
 /**
