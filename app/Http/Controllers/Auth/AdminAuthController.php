@@ -22,7 +22,15 @@ class AdminAuthController extends Controller
             return $this->sendApiResponse(false, Response::HTTP_UNAUTHORIZED, __('messages.unauthorized'));
         }
 
-        return $this->sendApiResponse(true, Response::HTTP_OK, "Login Successful",
+        return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.login_successful'),
                 ['admin' => UserResource::make(auth()->user()), 'token' => $token]);
+    }
+
+    public function logout(): JsonResponse {
+        $adminUser = auth()->user();
+
+        auth()->logout();
+
+        return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.logout_successful'), UserResource::make($adminUser));
     }
 }

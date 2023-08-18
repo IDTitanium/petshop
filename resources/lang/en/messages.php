@@ -12,5 +12,6 @@ return [
     'user_deleted' => 'User deleted successfully',
     'invalid_user_id' => 'Invalid user id provided',
     'admin_cannot_be_deleted' => 'Admin user cannot be deleted',
-    'admin_created' => 'Admin user created succesfully'
+    'admin_created' => 'Admin user created succesfully',
+    'logout_successful' => 'Logout successful'
 ];

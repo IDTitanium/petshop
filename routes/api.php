@@ -49,4 +49,6 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], fu
 
     Route::post('create', [UserAccountController::class, 'createAdmin']);
 
+    Route::get('logout', [AdminAuthController::class, 'logout']);
+
 });
