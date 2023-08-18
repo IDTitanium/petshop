@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
  * User Routes
  */
 Route::post('/v1/user/login', [UserAuthController::class, 'login']);
+
 Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function () {
     Route::get('', []);
     Route::delete('', []);
@@ -37,7 +38,15 @@ Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function () {
  * Admin Routes
  */
 Route::post('/v1/admin/login', [AdminAuthController::class, 'login']);
+
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], function () {
-    Route::get('/users', [UserAccountController::class, 'getUsers']);
-    Route::put('/user-edit/{uuid}', [UserAccountController::class, 'editUser']);
+
+    Route::get('users', [UserAccountController::class, 'getUsers']);
+
+    Route::put('user-edit/{uuid}', [UserAccountController::class, 'editUser']);
+
+    Route::delete('user-delete/{uuid}', [UserAccountController::class, 'deleteUser']);
+
+    Route::post('create', [UserAccountController::class, 'createAdminUser']);
+
 });

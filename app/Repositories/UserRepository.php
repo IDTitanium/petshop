@@ -36,4 +36,8 @@ class UserRepository
 
         return $user->refresh();
     }
+
+    public function deleteUserByUuid($uuid): void {
+        User::whereUuid($uuid)->delete();
+    }
 }

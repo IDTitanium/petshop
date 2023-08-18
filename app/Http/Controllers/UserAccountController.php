@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Repositories\UserRepository;
 use App\Traits\SendApiResponse;
@@ -22,5 +23,11 @@ class UserAccountController extends Controller
         $data = app(UserRepository::class)->editUserDetails($request->validated());
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.user_updated'), $data);
+    }
+
+    public function deleteUser(DeleteUserRequest $request, $uuid) {
+        app(UserRepository::class)->deleteUserByUuid($uuid);
+
+        return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.user_deleted'));
     }
 }

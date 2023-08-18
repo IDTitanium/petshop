@@ -14,6 +14,7 @@ use Illuminate\Validation\Validator;
 class EditUserRequest extends FormRequest
 {
     private ?User $user;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -57,7 +58,7 @@ class EditUserRequest extends FormRequest
     public function after(): array {
         return [
             function (Validator $validator) {
-                if ($this->user->is_admin) {
+                if ($this->user?->is_admin) {
                     $validator->errors()->add('user_uuid', __('messages.admin_cannot_be_edited'));
                 }
             }

@@ -136,4 +136,75 @@ class UserAccountTest extends TestCase
         $response->assertDontSeeText(__('messages.user_updated'));
     }
 
+    /**
+     * Admin user cannot be deleted
+     */
+    public function test_admin_user_cannot_be_deleted(): void {
+        Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
+
+        $admin = User::whereIsAdmin(true)->first();
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => $admin->email,
+            'password' => 'admin'
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $response = $this->delete("/api/v1/admin/user-delete/{$admin->uuid}", [
+            'Authorization' => 'Bearer '.$body['data']['token']
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertSeeText(__('messages.admin_cannot_be_deleted'));
+    }
+
+    /**
+     * Non existing user cannot be deleted
+     */
+    public function test_non_existing_user_cannot_be_deleted(): void {
+        Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
+
+        $admin = User::whereIsAdmin(true)->first();
+
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => $admin->email,
+            'password' => 'admin'
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $response = $this->delete("/api/v1/admin/user-delete/".fake()->uuid(), [
+            'Authorization' => 'Bearer '.$body['data']['token']
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertSeeText(__('messages.invalid_user_id'));
+    }
+
+    /**
+     * User can be deleted by admin
+     */
+    public function test_user_can_be_deleted_by_admin(): void {
+        Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
+        User::factory(1)->create();
+
+        $admin = User::whereIsAdmin(true)->first();
+        $user = User::whereIsAdmin(false)->first();
+
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => $admin->email,
+            'password' => 'admin'
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $response = $this->delete("/api/v1/admin/user-delete/{$user->uuid}", [
+            'Authorization' => 'Bearer '.$body['data']['token']
+        ]);
+
+        $response->assertSuccessful();
+        $response->assertSeeText(__('messages.user_deleted'));
+
+        $this->assertDatabaseMissing('users', $user->toArray());
+    }
 }
