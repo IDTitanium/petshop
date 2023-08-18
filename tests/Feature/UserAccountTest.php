@@ -6,11 +6,15 @@ use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class UserAccountTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Cannot get list of users without token
      */
@@ -206,5 +210,44 @@ class UserAccountTest extends TestCase
         $response->assertSeeText(__('messages.user_deleted'));
 
         $this->assertDatabaseMissing('users', $user->toArray());
+    }
+
+    /**
+     * Can create admin user
+     */
+    public function test_can_create_admin(): void
+    {
+        Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
+
+        $admin = User::whereIsAdmin(true)->first();
+
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => $admin->email,
+            'password' => 'admin'
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $data = [
+            'first_name' => 'Idris',
+            'last_name' => "lawal",
+            'email' => 'idriseun222+1@gmail.com',
+            'phone_number' => '2349018063510',
+            'address' => 'Lagos, Nigeria',
+            'password' => 'admin'
+        ];
+
+        $response = $this->post("/api/v1/admin/create", $data, [
+            'Authorization' => 'Bearer '.$body['data']['token']
+        ]);
+
+        $response->assertSuccessful();
+
+        $response->assertStatus(Response::HTTP_CREATED);
+
+        $data['is_admin'] = 1;
+        unset($data['password']);
+
+        $this->assertDatabaseHas('users', $data);
     }
 }

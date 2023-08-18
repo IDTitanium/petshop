@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Repositories\UserRepository;
@@ -13,21 +14,34 @@ class UserAccountController extends Controller
 {
     use SendApiResponse;
 
+    public function __construct(private UserRepository $userRepository)
+    {
+    }
+
     public function getUsers() {
-        $data = app(UserRepository::class)->getUserList();
+        $data = $this->userRepository->getUserList();
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.users_retrieved'), $data);
     }
 
     public function editUser(EditUserRequest $request) {
-        $data = app(UserRepository::class)->editUserDetails($request->validated());
+        $data = $this->userRepository->editUserDetails($request->validated());
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.user_updated'), $data);
     }
 
     public function deleteUser(DeleteUserRequest $request, $uuid) {
-        app(UserRepository::class)->deleteUserByUuid($uuid);
+        $this->userRepository->deleteUserByUuid($uuid);
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.user_deleted'));
+    }
+
+    public function createAdmin(CreateUserRequest $request) {
+        $data = $request->validated();
+        $data['is_admin'] = true;
+
+        $admin = $this->userRepository->create($data);
+
+        return $this->sendApiResponse(true, Response::HTTP_CREATED, __('messages.admin_created'), $admin);
     }
 }
