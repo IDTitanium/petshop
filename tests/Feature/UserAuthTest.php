@@ -64,7 +64,7 @@ class UserAuthTest extends TestCase
 
         $response = $this->post('/api/v1/user/login', [
             'email' => User::first()->email,
-            'password' => 'userpassword'
+            'password' => 'userpassword',
         ]);
 
         $response->assertSuccessful();
