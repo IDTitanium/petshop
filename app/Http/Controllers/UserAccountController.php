@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\GetUsersRequest;
 use App\Repositories\UserRepository;
 use App\Traits\SendApiResponse;
 use Illuminate\Http\Request;
@@ -18,8 +19,8 @@ class UserAccountController extends Controller
     {
     }
 
-    public function getUsers() {
-        $data = $this->userRepository->getUserList();
+    public function getUsers(GetUsersRequest $request) {
+        $data = $this->userRepository->getUserList($request->validated());
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.users_retrieved'), $data);
     }

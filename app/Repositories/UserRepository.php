@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class UserRepository
 {
@@ -13,8 +14,16 @@ class UserRepository
         return User::create($data);
     }
 
-    public function getUserList(): LengthAwarePaginator {
-        return User::whereIsAdmin(false)->paginate();
+    public function getUserList(array $data): LengthAwarePaginator {
+        $query = User::whereIsAdmin(false);
+
+        if (isset($data['filters'])) {
+            $query = $this->applyGetUserFiltersToQuery($query, $data['filters']);
+        }
+
+        $paginationLength = $data['items_per_page'] ?? config('pagination.items_per_page');
+
+        return $query->paginate($paginationLength);
     }
 
     public function getUserByUuid(string $uuid): User|null {
@@ -37,7 +46,29 @@ class UserRepository
         return $user->refresh();
     }
 
-    public function deleteUserByUuid($uuid): void {
+    public function deleteUserByUuid(string $uuid): void {
         User::whereUuid($uuid)->delete();
+    }
+
+    private function applyGetUserFiltersToQuery(EloquentBuilder $query, array $filters): EloquentBuilder {
+        if (isset($filters['name'])) {
+            $splitName = explode(' ', $filters['name']);
+
+            $firstName = $splitName[0] ?? null;
+            $lastName = $splitName[1] ?? null;
+
+            $query->where(function ($q) use($firstName, $lastName) {
+                $q->where('first_name', 'like', $firstName);
+                $q->orWhere('last_name', 'like', $lastName);
+            });
+        }
+
+        unset($filters['name']);
+
+        foreach ($filters as $key => $value) {
+            $query->where($key, 'like', $value);
+        }
+
+        return $query;
     }
 }
