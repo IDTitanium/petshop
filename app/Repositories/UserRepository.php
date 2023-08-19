@@ -58,15 +58,21 @@ class UserRepository
             $lastName = $splitName[1] ?? null;
 
             $query->where(function ($q) use($firstName, $lastName) {
-                $q->where('first_name', 'like', $firstName);
-                $q->orWhere('last_name', 'like', $lastName);
+                if (!is_null($firstName)) {
+                    $q->where('first_name', 'like', "%$firstName%");
+                    $q->orWhere('last_name', 'like', "%$firstName%");
+                }
+                if (!is_null($lastName)) {
+                    $q->orWhere('first_name', 'like', "%$lastName%");
+                    $q->orWhere('last_name', 'like', "%$lastName%");
+                }
             });
         }
 
         unset($filters['name']);
 
         foreach ($filters as $key => $value) {
-            $query->where($key, 'like', $value);
+            $query->where($key, 'like', "%$value%");
         }
 
         return $query;

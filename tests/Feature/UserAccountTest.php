@@ -54,7 +54,7 @@ class UserAccountTest extends TestCase
     public function test_can_get_list_of_users_with_admin_token(): void
     {
         Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
-
+        User::factory(3)->create();
         $response = $this->post('/api/v1/admin/login', [
             'email' => User::whereIsAdmin(true)->first()->email,
             'password' => 'admin'
@@ -66,8 +66,128 @@ class UserAccountTest extends TestCase
             'Authorization' => 'Bearer '.$body['data']['token']
         ]);
 
+        $body = $response->decodeResponseJson();
+
         $response->assertSuccessful();
         $response->assertSeeText(__('messages.users_retrieved'));
+        $this->assertNotEmpty($body['data']);
+    }
+
+    /**
+     * Can filter list of users by name
+     */
+    public function test_can_filter_list_of_users_by_name(): void
+    {
+        Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
+        User::factory(3)->create();
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => User::whereIsAdmin(true)->first()->email,
+            'password' => 'admin'
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $firstUser = User::whereIsAdmin(false)->first();
+
+        $response = $this->get("/api/v1/admin/users?filters[name]={$firstUser->first_name}", [
+            'Authorization' => 'Bearer '.$body['data']['token']
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $response->assertSuccessful();
+        $response->assertSeeText(__('messages.users_retrieved'));
+        $this->assertNotEmpty($body['data']);
+
+        $this->assertEquals($body['data']['data'][0]['first_name'], $firstUser->first_name);
+    }
+
+    /**
+     * Can filter list of users by address
+     */
+    public function test_can_filter_list_of_users_by_address(): void
+    {
+        Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
+        User::factory(3)->create();
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => User::whereIsAdmin(true)->first()->email,
+            'password' => 'admin'
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $firstUser = User::whereIsAdmin(false)->first();
+
+        $response = $this->get("/api/v1/admin/users?filters[address]={$firstUser->address}", [
+            'Authorization' => 'Bearer '.$body['data']['token']
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $response->assertSuccessful();
+        $response->assertSeeText(__('messages.users_retrieved'));
+        $this->assertNotEmpty($body['data']);
+
+        $this->assertEquals($body['data']['data'][0]['address'], $firstUser->address);
+    }
+
+    /**
+     * Can filter list of users by phone number
+     */
+    public function test_can_filter_list_of_users_by_phone_number(): void
+    {
+        Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
+        User::factory(3)->create();
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => User::whereIsAdmin(true)->first()->email,
+            'password' => 'admin'
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $firstUser = User::whereIsAdmin(false)->first();
+
+        $response = $this->get("/api/v1/admin/users?filters[phone_number]={$firstUser->phone_number}", [
+            'Authorization' => 'Bearer '.$body['data']['token']
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $response->assertSuccessful();
+        $response->assertSeeText(__('messages.users_retrieved'));
+        $this->assertNotEmpty($body['data']);
+
+        $this->assertEquals($body['data']['data'][0]['phone_number'], $firstUser->phone_number);
+    }
+
+    /**
+     * Can filter list of users by multiple criteria
+     */
+    public function test_can_filter_list_of_users_by_multiple_criteria(): void
+    {
+        Artisan::call('db:seed', ['class' => AdminUserSeeder::class]);
+        User::factory(3)->create();
+        $response = $this->post('/api/v1/admin/login', [
+            'email' => User::whereIsAdmin(true)->first()->email,
+            'password' => 'admin'
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $firstUser = User::whereIsAdmin(false)->first();
+
+        $response = $this->get("/api/v1/admin/users?filters[phone_number]={$firstUser->phone_number}&filters[name]={$firstUser->first_name}", [
+            'Authorization' => 'Bearer '.$body['data']['token']
+        ]);
+
+        $body = $response->decodeResponseJson();
+
+        $response->assertSuccessful();
+        $response->assertSeeText(__('messages.users_retrieved'));
+        $this->assertNotEmpty($body['data']);
+
+        $this->assertEquals($body['data']['data'][0]['phone_number'], $firstUser->phone_number);
+        $this->assertEquals($body['data']['data'][0]['first_name'], $firstUser->first_name);
     }
 
     /**
@@ -236,7 +356,8 @@ class UserAccountTest extends TestCase
             'email' => 'idriseun222+1@gmail.com',
             'phone_number' => '2349018063510',
             'address' => 'Lagos, Nigeria',
-            'password' => 'admin'
+            'password' => 'admin',
+            'password_confirmation' => 'admin'
         ];
 
         $response = $this->post("/api/v1/admin/create", $data, [
@@ -248,7 +369,7 @@ class UserAccountTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
 
         $data['is_admin'] = 1;
-        unset($data['password']);
+        unset($data['password'], $data['password_confirmation']);
 
         $this->assertDatabaseHas('users', $data);
     }
