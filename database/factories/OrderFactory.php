@@ -33,7 +33,7 @@ class OrderFactory extends Factory
         ];
 
         return [
-            'user_id' => User::first()->id,
+            'user_id' => User::whereIsAdmin(false)->first()->id,
             'order_status_id' => OrderStatus::first()->id,
             'payment_id' => 1,
             'products' => json_encode($products),

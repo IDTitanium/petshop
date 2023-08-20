@@ -1,0 +1,1059 @@
+openapi: 3.0.0
+info:
+  title: petshop
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    noauthAuth:
+      type: http
+      scheme: noauth
+tags:
+  - name: User Endpoints
+  - name: Admin Endpoints
+paths:
+  /api/v1/user/login:
+    post:
+      tags:
+        - User Endpoints
+      summary: User login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: brook.altenwerth@example.com
+                password: userpassword
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Tue, 15 Aug 2023 23:54:12 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Login successful
+                data:
+                  user:
+                    first_name: Bret
+                    last_name: Feeney
+                    email: brook.altenwerth@example.com
+                    address: |-
+                      191 Padberg Glens
+                      South Kington, IL 29484-1985
+                    phone_number: (651) 319-1713
+                  token: >-
+                    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL3VzZXIvbG9naW4iLCJpYXQiOjE2OTIxNDM2NTIsImV4cCI6MTY5MjE0NzI1MiwibmJmIjoxNjkyMTQzNjUyLCJqdGkiOiJ6MlZCbXN5dWg0N3BGYkI1Iiwic3ViIjoiMTIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.N01KWCkgu_dUDtL4egE8vFAeRuUmwfAUVH0UBtHE4E0
+  /api/v1/user/orders:
+    get:
+      tags:
+        - User Endpoints
+      summary: User orders
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sun, 20 Aug 2023 20:22:46 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: User orders retrieved successfully
+                data:
+                  current_page: 1
+                  data:
+                    - id: 1
+                      user_id: 29
+                      order_status_id: 1
+                      payment_id: 1
+                      uuid: db7b845a-b4af-4d56-9cb4-a42224409062
+                      products: >-
+                        [{"product": "d3781845-6013-4327-85a3-62cd1c9c2a71",
+                        "quantity": 5}, {"product":
+                        "ceb16a98-6e69-4d60-8424-d7417d263b2d", "quantity": 6}]
+                      address: >-
+                        {"billing": "3043 Baumbach Views\nNorth Marietta, CO
+                        63982", "shipping": "93434 Laurine Cape Apt. 438\nEast
+                        Nicklausstad, NE 55864-5608"}
+                      delivery_fee: 105
+                      amount: 17416
+                      created_at: '2023-08-20T20:21:56.000000Z'
+                      updated_at: '2023-08-20T20:21:56.000000Z'
+                      shipped_at: null
+                    - id: 2
+                      user_id: 29
+                      order_status_id: 1
+                      payment_id: 1
+                      uuid: 8460489a-5b58-4af0-825e-d6d368aeebd7
+                      products: >-
+                        [{"product": "d3781845-6013-4327-85a3-62cd1c9c2a71",
+                        "quantity": 5}, {"product":
+                        "ceb16a98-6e69-4d60-8424-d7417d263b2d", "quantity": 6}]
+                      address: >-
+                        {"billing": "244 Dion Drive Suite 136\nPort Osvaldo, MA
+                        31136-6388", "shipping": "91335 Ted Station\nNew Hugh,
+                        UT 17733"}
+                      delivery_fee: 139
+                      amount: 13133
+                      created_at: '2023-08-20T20:21:56.000000Z'
+                      updated_at: '2023-08-20T20:21:56.000000Z'
+                      shipped_at: null
+                    - id: 3
+                      user_id: 29
+                      order_status_id: 1
+                      payment_id: 1
+                      uuid: 15e4b5df-ae4f-4965-8630-e2c85f6d9d2f
+                      products: >-
+                        [{"product": "d3781845-6013-4327-85a3-62cd1c9c2a71",
+                        "quantity": 5}, {"product":
+                        "ceb16a98-6e69-4d60-8424-d7417d263b2d", "quantity": 6}]
+                      address: >-
+                        {"billing": "11025 Opal Neck Suite 173\nKimfurt, WA
+                        88513-4614", "shipping": "89431 Berniece Burg\nSouth
+                        Jermeystad, KY 50041-2005"}
+                      delivery_fee: 167
+                      amount: 13589
+                      created_at: '2023-08-20T20:21:56.000000Z'
+                      updated_at: '2023-08-20T20:21:56.000000Z'
+                      shipped_at: null
+                    - id: 4
+                      user_id: 29
+                      order_status_id: 1
+                      payment_id: 1
+                      uuid: 59acc35e-2360-4ab3-af1e-0b39fe640755
+                      products: >-
+                        [{"product": "d3781845-6013-4327-85a3-62cd1c9c2a71",
+                        "quantity": 5}, {"product":
+                        "ceb16a98-6e69-4d60-8424-d7417d263b2d", "quantity": 6}]
+                      address: >-
+                        {"billing": "1091 Gertrude Mission Apt. 113\nWest Ewell,
+                        CO 26085", "shipping": "11164 Murray Gardens\nNew
+                        Selinaport, ID 20169"}
+                      delivery_fee: 140
+                      amount: 19651
+                      created_at: '2023-08-20T20:21:56.000000Z'
+                      updated_at: '2023-08-20T20:21:56.000000Z'
+                      shipped_at: null
+                    - id: 5
+                      user_id: 29
+                      order_status_id: 1
+                      payment_id: 1
+                      uuid: d9eede21-f616-40f9-ba4d-ee14e3ea32e1
+                      products: >-
+                        [{"product": "d3781845-6013-4327-85a3-62cd1c9c2a71",
+                        "quantity": 5}, {"product":
+                        "ceb16a98-6e69-4d60-8424-d7417d263b2d", "quantity": 6}]
+                      address: >-
+                        {"billing": "9882 Mante Stravenue\nLake Sincere, WA
+                        54135", "shipping": "26718 Kian River Apt.
+                        186\nBoehmborough, MT 48758"}
+                      delivery_fee: 132
+                      amount: 15863
+                      created_at: '2023-08-20T20:21:56.000000Z'
+                      updated_at: '2023-08-20T20:21:56.000000Z'
+                      shipped_at: null
+                  first_page_url: http://localhost:8000/api/v1/user/orders?page=1
+                  from: 1
+                  last_page: 1
+                  last_page_url: http://localhost:8000/api/v1/user/orders?page=1
+                  links:
+                    - url: null
+                      label: '&laquo; Previous'
+                      active: false
+                    - url: http://localhost:8000/api/v1/user/orders?page=1
+                      label: '1'
+                      active: true
+                    - url: null
+                      label: Next &raquo;
+                      active: false
+                  next_page_url: null
+                  path: http://localhost:8000/api/v1/user/orders
+                  per_page: 15
+                  prev_page_url: null
+                  to: 5
+                  total: 5
+  /api/v1/user/logout:
+    get:
+      tags:
+        - User Endpoints
+      summary: User logout
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sun, 20 Aug 2023 20:24:51 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Logout successful
+                data:
+                  first_name: Liliana
+                  last_name: Schimmel
+                  email: qveum@example.com
+                  address: |-
+                    2498 Mueller Land
+                    Christophermouth, DC 46505-4778
+                  phone_number: 234-581-7193
+  /api/v1/admin/users:
+    get:
+      tags:
+        - Admin Endpoints
+      summary: Get list of users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: filters[name]
+          in: query
+          schema:
+            type: string
+          example: Bret
+        - name: filters[email]
+          in: query
+          schema:
+            type: string
+          example: brook.altenwerth@example.com
+        - name: filters[phone_number]
+          in: query
+          schema:
+            type: string
+          example: 319-1713
+        - name: filters[address]
+          in: query
+          schema:
+            type: string
+          example: Padberg Glens
+        - name: filters[created_at]
+          in: query
+          schema:
+            type: string
+          example: '2023-08-15'
+        - name: filters[is_marketing]
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: items_per_page
+          in: query
+          schema:
+            type: integer
+          example: '10'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Tue, 15 Aug 2023 23:55:00 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Users retrieved successfully
+                data:
+                  current_page: 1
+                  data:
+                    - id: 12
+                      uuid: 5ffeb936-404e-4ead-b358-3e666de2223e
+                      first_name: Bret
+                      last_name: Feeney
+                      is_admin: 0
+                      email: brook.altenwerth@example.com
+                      email_verified_at: '2023-08-15T23:50:47.000000Z'
+                      avatar: null
+                      address: |-
+                        191 Padberg Glens
+                        South Kington, IL 29484-1985
+                      phone_number: (651) 319-1713
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 13
+                      uuid: 82541685-62ec-4dee-b8b2-4f52f557c720
+                      first_name: Jonas
+                      last_name: Tromp
+                      is_admin: 0
+                      email: hudson.joseph@example.com
+                      email_verified_at: '2023-08-15T23:50:47.000000Z'
+                      avatar: null
+                      address: |-
+                        3138 Fanny Canyon
+                        East Lessie, MI 50392-8734
+                      phone_number: +1 (217) 983-4907
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 14
+                      uuid: 81aef8b8-8560-40fa-9310-d069bb735815
+                      first_name: Ethan
+                      last_name: Schroeder
+                      is_admin: 0
+                      email: wiegand.joyce@example.net
+                      email_verified_at: '2023-08-15T23:50:47.000000Z'
+                      avatar: null
+                      address: |-
+                        6436 Estelle Light
+                        Hoppetown, VA 55675
+                      phone_number: (520) 907-7524
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 15
+                      uuid: 35799d64-3d1e-4ddd-8d72-4ab4be05ede4
+                      first_name: Eliseo
+                      last_name: Rath
+                      is_admin: 0
+                      email: josefa68@example.net
+                      email_verified_at: '2023-08-15T23:50:48.000000Z'
+                      avatar: null
+                      address: |-
+                        344 Tillman Stravenue
+                        South Claudine, NY 60107
+                      phone_number: 1-551-505-2416
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 16
+                      uuid: ab6c1f39-78d2-4ddd-97a8-1b35008826d2
+                      first_name: Amparo
+                      last_name: Greenfelder
+                      is_admin: 0
+                      email: jerald26@example.net
+                      email_verified_at: '2023-08-15T23:50:48.000000Z'
+                      avatar: null
+                      address: |-
+                        486 Roberts Fords
+                        Deontemouth, NE 48993-0312
+                      phone_number: '+17314109970'
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 17
+                      uuid: 52f3603e-553e-4560-a92b-45c5c8333997
+                      first_name: Jesse
+                      last_name: Howell
+                      is_admin: 0
+                      email: murphy.keenan@example.com
+                      email_verified_at: '2023-08-15T23:50:48.000000Z'
+                      avatar: null
+                      address: |-
+                        957 Mayert Expressway Apt. 463
+                        Tatumton, OH 31590
+                      phone_number: +1.585.386.5271
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 18
+                      uuid: 5cac87e6-cbaa-4571-82db-e3428a003138
+                      first_name: Mackenzie
+                      last_name: Hill
+                      is_admin: 0
+                      email: satterfield.virginie@example.net
+                      email_verified_at: '2023-08-15T23:50:48.000000Z'
+                      avatar: null
+                      address: |-
+                        61240 Alice Centers Suite 782
+                        Port Myrtieside, PA 55228
+                      phone_number: +1.283.564.3548
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 19
+                      uuid: 9eefa5ec-2584-48fb-ac88-89c3e0587530
+                      first_name: Wyatt
+                      last_name: Crist
+                      is_admin: 0
+                      email: lola51@example.com
+                      email_verified_at: '2023-08-15T23:50:48.000000Z'
+                      avatar: null
+                      address: |-
+                        8838 Parker Harbors Apt. 844
+                        Fisherbury, ID 58441-7733
+                      phone_number: 1-815-655-3763
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 20
+                      uuid: fc74fd2a-4558-4725-ac27-9ef7c3c1e00a
+                      first_name: Bessie
+                      last_name: Barrows
+                      is_admin: 0
+                      email: greta63@example.org
+                      email_verified_at: '2023-08-15T23:50:48.000000Z'
+                      avatar: null
+                      address: |-
+                        7036 Marcella Extensions
+                        Wildermanhaven, TN 47993-3800
+                      phone_number: +1.364.807.4898
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                    - id: 21
+                      uuid: 05d5343d-23c6-42c5-8264-94349a9ac976
+                      first_name: Rodolfo
+                      last_name: Kreiger
+                      is_admin: 0
+                      email: deion50@example.org
+                      email_verified_at: '2023-08-15T23:50:48.000000Z'
+                      avatar: null
+                      address: |-
+                        5095 Legros Key
+                        Lake Norrisbury, MA 20659-1224
+                      phone_number: 440.512.9266
+                      is_marketing: 0
+                      created_at: '2023-08-15T23:50:48.000000Z'
+                      updated_at: '2023-08-15T23:50:48.000000Z'
+                      last_login_at: null
+                  first_page_url: http://localhost:8000/api/v1/admin/users?page=1
+                  from: 1
+                  last_page: 1
+                  last_page_url: http://localhost:8000/api/v1/admin/users?page=1
+                  links:
+                    - url: null
+                      label: '&laquo; Previous'
+                      active: false
+                    - url: http://localhost:8000/api/v1/admin/users?page=1
+                      label: '1'
+                      active: true
+                    - url: null
+                      label: Next &raquo;
+                      active: false
+                  next_page_url: null
+                  path: http://localhost:8000/api/v1/admin/users
+                  per_page: 15
+                  prev_page_url: null
+                  to: 10
+                  total: 10
+  /api/v1/admin/login:
+    post:
+      tags:
+        - Admin Endpoints
+      summary: Admin Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: admin@buckhill.co.uk
+                password: admin
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Tue, 15 Aug 2023 23:50:53 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Login Successful
+                data:
+                  admin:
+                    first_name: Jacinto
+                    last_name: Dach
+                    email: admin@buckhill.co.uk
+                    address: |-
+                      7273 Christy Ford
+                      Rempelland, AR 13221
+                    phone_number: (915) 313-7217
+                  token: >-
+                    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL2FkbWluL2xvZ2luIiwiaWF0IjoxNjkyMTQzNDUzLCJleHAiOjE2OTIxNDcwNTMsIm5iZiI6MTY5MjE0MzQ1MywianRpIjoiZEV4Q3UwM3NiRXUzQ0doNiIsInN1YiI6IjExIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.fDni56M5pyrBJDwSgezgMYKiCkW4f-H37bbnhCDF8ms
+  /api/v1/admin/logout:
+    get:
+      tags:
+        - Admin Endpoints
+      summary: Admin logout
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sun, 20 Aug 2023 20:27:15 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Logout successful
+                data:
+                  first_name: Ava
+                  last_name: O'Connell
+                  email: admin@buckhill.co.uk
+                  address: |-
+                    14680 Malvina Mill
+                    Raeganstad, ME 13276-6992
+                  phone_number: 912-998-8542
+  /api/v1/admin/user-edit/{uuid}:
+    put:
+      tags:
+        - Admin Endpoints
+      summary: User edit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                first_name: Idris
+                last_name: Lawal
+                email: idriseun222@gmail.com
+                address: Lagos, Nigeria
+                phone_number: '2349018063510'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uuid
+          in: path
+          schema:
+            type: string
+          required: true
+          example: d7874ea1-99e0-4643-ba1b-e31d1c6d28d2
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sun, 20 Aug 2023 20:31:50 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: User account update successfully
+                data:
+                  id: 29
+                  uuid: d7874ea1-99e0-4643-ba1b-e31d1c6d28d2
+                  first_name: Idris
+                  last_name: Lawal
+                  is_admin: 0
+                  email: idriseun222@gmail.com
+                  email_verified_at: '2023-08-20T20:21:55.000000Z'
+                  avatar: null
+                  address: Lagos, Nigeria
+                  phone_number: '2349018063510'
+                  is_marketing: 0
+                  created_at: '2023-08-20T20:21:55.000000Z'
+                  updated_at: '2023-08-20T20:31:50.000000Z'
+                  last_login_at: null
+  /api/v1/admin/user-delete/{uuid}:
+    delete:
+      tags:
+        - Admin Endpoints
+      summary: User delete
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uuid
+          in: path
+          schema:
+            type: string
+          required: true
+          example: b59a7206-1931-41a4-955b-881997369d0e
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sun, 20 Aug 2023 20:36:12 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: User deleted successfully
+                data: null
+  /api/v1/admin/create:
+    post:
+      tags:
+        - Admin Endpoints
+      summary: Create admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                first_name: Farid
+                last_name: Lawal
+                email: faridlawal@idrislawal.me
+                password: userpassword
+                password_confirmation: userpassword
+                address: Lagos, Nigeria
+                phone_number: '2348092992048'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.1
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sun, 20 Aug 2023 20:39:45 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Admin user created succesfully
+                data:
+                  first_name: Farid
+                  last_name: Lawal
+                  email: faridlawal@idrislawal.me
+                  address: Lagos, Nigeria
+                  phone_number: '2348092992048'
+                  is_admin: true
+                  uuid: 8d6785a5-1a58-4213-b4af-4a269b906dce
+                  updated_at: '2023-08-20T20:39:45.000000Z'
+                  created_at: '2023-08-20T20:39:45.000000Z'
+                  id: 32
