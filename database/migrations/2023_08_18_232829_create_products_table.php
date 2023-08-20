@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('category_uuid')->constrained('categories', 'uuid')->nullOnDelete();
+            $table->foreignUuid('category_uuid')->constrained('categories', 'uuid')->cascadeOnDelete();
             $table->uuid();
             $table->string('title');
             $table->float('price', 14);

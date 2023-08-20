@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\OrderStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class OrderStatusSeeder extends Seeder
 {
@@ -13,7 +14,9 @@ class OrderStatusSeeder extends Seeder
      */
     public function run(): void
     {
+        Schema::disableForeignKeyConstraints();
         OrderStatus::truncate();
+        Schema::enableForeignKeyConstraints();
 
         foreach($this->statuses() as $status) {
             OrderStatus::create([
