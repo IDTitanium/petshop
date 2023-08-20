@@ -12,11 +12,11 @@ class OrderRepository
     /**
      * Get orders for user
      *
-     * @param int|null $userId
+     * @param int|null|string $userId
      *
      * @return LengthAwarePaginator
      */
-    public function getOrdersForUser(?int $userId): LengthAwarePaginator {
+    public function getOrdersForUser(int|null|string $userId): LengthAwarePaginator {
         return Order::where('user_id', $userId)->paginate(config('pagination.items_per_page'));
     }
 }

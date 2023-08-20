@@ -13,7 +13,7 @@ class UserRepository
     /**
      * Create user
      *
-     * @param array<string|int> $data
+     * @param array<string, int> $data
      *
      * @return User
      */
@@ -24,7 +24,7 @@ class UserRepository
     /**
      * Get user list
      *
-     * @param array<string|int|array> $data
+     * @param array<string, int, array> $data
      *
      * @return LengthAwarePaginator
      */
@@ -89,7 +89,7 @@ class UserRepository
      * Apply get user filters to query
      *
      * @param EloquentBuilder $query
-     * @param array $filters
+     * @param array<string> $filters
      *
      * @return EloquentBuilder
      */

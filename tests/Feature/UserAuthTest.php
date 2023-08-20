@@ -47,7 +47,7 @@ class UserAuthTest extends TestCase
     {
         User::factory(1)->create();
         $response = $this->post('/api/v1/user/login', [
-            'email' => User::first()->email,
+            'email' => User::whereIsAdmin(false)->first()->email,
             'password' => 'userpassword'
         ]);
 
@@ -63,7 +63,7 @@ class UserAuthTest extends TestCase
         User::factory(1)->create();
 
         $response = $this->post('/api/v1/user/login', [
-            'email' => User::first()->email,
+            'email' => User::whereIsAdmin(false)->first()->email,
             'password' => 'userpassword',
         ]);
 

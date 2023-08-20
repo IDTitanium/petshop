@@ -7,10 +7,18 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property-read string $first_name
+ * @property-read string $last_name
+ * @property-read string $emal
+ * @property-read string $address
+ * @property-read string $phone_number
+ */
 class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
+     *
      *
      * @return array<string, mixed>
      */
