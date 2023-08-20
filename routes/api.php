@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::post('/v1/user/login', [UserAuthController::class, 'login']);
 
-Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function (): void {
     Route::get('orders', [UserController::class, 'listUserOrders']);
     Route::get('logout', [UserAuthController::class, 'logout']);
 });
@@ -34,8 +34,7 @@ Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function () {
  */
 Route::post('/v1/admin/login', [AdminAuthController::class, 'login']);
 
-Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], function () {
-
+Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], function (): void {
     Route::get('users', [UserAccountController::class, 'getUsers']);
 
     Route::put('user-edit/{uuid}', [UserAccountController::class, 'editUser']);
@@ -45,5 +44,4 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], fu
     Route::post('create', [UserAccountController::class, 'createAdmin']);
 
     Route::get('logout', [AdminAuthController::class, 'logout']);
-
 });

@@ -14,10 +14,9 @@ class UserRepository
      * Create user
      *
      * @param array<string, int> $data
-     *
-     * @return User
      */
-    public function create(array $data): User {
+    public function create(array $data): User
+    {
         return User::create($data);
     }
 
@@ -25,10 +24,9 @@ class UserRepository
      * Get user list
      *
      * @param array<string, int, array> $data
-     *
-     * @return LengthAwarePaginator
      */
-    public function getUserList(array $data): LengthAwarePaginator {
+    public function getUserList(array $data): LengthAwarePaginator
+    {
         $query = User::whereIsAdmin(false);
 
         if (isset($data['filters'])) {
@@ -42,12 +40,9 @@ class UserRepository
 
     /**
      * Get user by uuid
-     *
-     * @param string $uuid
-     *
-     * @return User|null
      */
-    public function getUserByUuid(string $uuid): User|null {
+    public function getUserByUuid(string $uuid): User|null
+    {
         return User::whereUuid($uuid)->first();
     }
 
@@ -58,10 +53,13 @@ class UserRepository
      *
      * @return User
      */
-    public function editUserDetails(array $data): User|null {
+    public function editUserDetails(array $data): User|null
+    {
         $user = $this->getUserByUuid($data['user_uuid']);
 
-        if (!$user) return null;
+        if (! $user) {
+            return null;
+        }
 
         User::where('id', $user->id)->update([
             'first_name' => $data['first_name'] ?? $user->first_name,
@@ -76,38 +74,33 @@ class UserRepository
 
     /**
      * Delete user by uuid
-     *
-     * @param string $uuid
-     *
-     * @return void
      */
-    public function deleteUserByUuid(string $uuid): void {
+    public function deleteUserByUuid(string $uuid): void
+    {
         User::whereUuid($uuid)->delete();
     }
 
     /**
      * Apply get user filters to query
      *
-     * @param EloquentBuilder $query
      * @param array<string> $filters
-     *
-     * @return EloquentBuilder
      */
-    private function applyGetUserFiltersToQuery(EloquentBuilder $query, array $filters): EloquentBuilder {
+    private function applyGetUserFiltersToQuery(EloquentBuilder $query, array $filters): EloquentBuilder
+    {
         if (isset($filters['name'])) {
             $splitName = explode(' ', $filters['name']);
 
             $firstName = $splitName[0] ?? null;
             $lastName = $splitName[1] ?? null;
 
-            $query->where(function ($q) use($firstName, $lastName) {
-                if (!is_null($firstName)) {
-                    $q->where('first_name', 'like', "%$firstName%");
-                    $q->orWhere('last_name', 'like', "%$firstName%");
+            $query->where(function ($q) use ($firstName, $lastName): void {
+                if (! is_null($firstName)) {
+                    $q->where('first_name', 'like', "%{$firstName}%");
+                    $q->orWhere('last_name', 'like', "%{$firstName}%");
                 }
-                if (!is_null($lastName)) {
-                    $q->orWhere('first_name', 'like', "%$lastName%");
-                    $q->orWhere('last_name', 'like', "%$lastName%");
+                if (! is_null($lastName)) {
+                    $q->orWhere('first_name', 'like', "%{$lastName}%");
+                    $q->orWhere('last_name', 'like', "%{$lastName}%");
                 }
             });
         }
@@ -115,7 +108,7 @@ class UserRepository
         unset($filters['name']);
 
         foreach ($filters as $key => $value) {
-            $query->where($key, 'like', "%$value%");
+            $query->where($key, 'like', "%{$value}%");
         }
 
         return $query;

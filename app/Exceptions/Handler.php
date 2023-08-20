@@ -30,8 +30,8 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            Log::error("An error has occured", [$e->getTrace()]);
-            return $this->sendApiResponse(false, Response::HTTP_INTERNAL_SERVER_ERROR, "Error occured");
+            Log::error('An error has occured', [$e->getTrace()]);
+            return $this->sendApiResponse(false, Response::HTTP_INTERNAL_SERVER_ERROR, 'Error occured');
         });
     }
 }

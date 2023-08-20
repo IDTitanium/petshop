@@ -20,7 +20,7 @@ class AuthorizeAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()->is_admin) {
+        if (! $request->user()->is_admin) {
             return $this->sendApiResponse(false, HttpResponse::HTTP_UNAUTHORIZED, __('messages.unauthorized'));
         }
 

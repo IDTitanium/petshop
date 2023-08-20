@@ -11,12 +11,9 @@ class OrderRepository
 {
     /**
      * Get orders for user
-     *
-     * @param int|null|string $userId
-     *
-     * @return LengthAwarePaginator
      */
-    public function getOrdersForUser(int|null|string $userId): LengthAwarePaginator {
+    public function getOrdersForUser(int|string|null $userId): LengthAwarePaginator
+    {
         return Order::where('user_id', $userId)->paginate(config('pagination.items_per_page'));
     }
 }

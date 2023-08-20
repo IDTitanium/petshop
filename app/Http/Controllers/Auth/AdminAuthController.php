@@ -1,44 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class AdminAuthController extends Controller
 {
     /**
      * Admin login
-     *
-     * @param LoginRequest $request
-     *
-     * @return JsonResponse
      */
-    public function login(LoginRequest $request): JsonResponse {
+    public function login(LoginRequest $request): JsonResponse
+    {
         $credentials = $request->validated();
 
-        if (! $token = auth()->attempt($credentials)) {
+        $token = auth()->attempt($credentials);
+
+        if (! $token) {
             return $this->sendApiResponse(false, Response::HTTP_UNAUTHORIZED, __('messages.unauthorized'));
         }
 
-        if (!auth()->user()?->is_admin) {
+        if (! auth()->user()?->is_admin) {
             return $this->sendApiResponse(false, Response::HTTP_UNAUTHORIZED, __('messages.unauthorized'));
         }
 
-        return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.login_successful'),
-                ['admin' => UserResource::make(auth()->user()), 'token' => $token]);
+        return $this->sendApiResponse(
+            true,
+            Response::HTTP_OK,
+            __('messages.login_successful'),
+            ['admin' => UserResource::make(auth()->user()), 'token' => $token]
+        );
     }
 
     /**
      * Admin logout
-     *
-     * @return JsonResponse
      */
-    public function logout(): JsonResponse {
+    public function logout(): JsonResponse
+    {
         $adminUser = auth()->user();
 
         auth()->logout();

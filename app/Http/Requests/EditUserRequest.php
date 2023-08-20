@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 
 class EditUserRequest extends FormRequest
@@ -41,27 +40,28 @@ class EditUserRequest extends FormRequest
     }
 
     /**
+     * After validation
+     */
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                if ($this->user?->is_admin) {
+                    $validator->errors()->add('user_uuid', __('messages.admin_cannot_be_edited'));
+                }
+            },
+        ];
+    }
+
+    /**
      * Prepare for validation
      */
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'user_uuid' => $this->uuid
+            'user_uuid' => $this->uuid,
         ]);
 
         $this->user = app(UserRepository::class)->getUserByUuid($this->uuid);
-    }
-
-    /**
-     * After validation
-     */
-    public function after(): array {
-        return [
-            function (Validator $validator) {
-                if ($this->user?->is_admin) {
-                    $validator->errors()->add('user_uuid', __('messages.admin_cannot_be_edited'));
-                }
-            }
-        ];
     }
 }

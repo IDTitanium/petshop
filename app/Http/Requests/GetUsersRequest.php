@@ -31,7 +31,7 @@ class GetUsersRequest extends FormRequest
             'filters.address' => 'string',
             'filters.created_at' => 'string',
             'filters.is_marketing' => 'integer',
-            'items_per_page' => 'integer'
+            'items_per_page' => 'integer',
         ];
     }
 }

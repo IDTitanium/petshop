@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,16 +25,17 @@ class DeleteUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_uuid' => ['bail', function ($attribute, $value, $fail) {
+            'user_uuid' => ['bail', function ($_attribute, $_value, $fail): void {
                 $user = app(UserRepository::class)->getUserByUuid($this->uuid);
-                if (!$user) {
+                if (! $user) {
                     $fail(__('messages.invalid_user_id'));
                 }
 
                 if ($user?->is_admin) {
                     $fail(__('messages.admin_cannot_be_deleted'));
                 }
-            }],
+            },
+            ],
         ];
     }
 
@@ -45,7 +45,7 @@ class DeleteUserRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'user_uuid' => $this->uuid
+            'user_uuid' => $this->uuid,
         ]);
     }
 }
