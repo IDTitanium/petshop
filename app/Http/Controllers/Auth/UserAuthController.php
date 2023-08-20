@@ -11,6 +11,13 @@ use Illuminate\Http\Response;
 
 class UserAuthController extends Controller
 {
+    /**
+     * User login
+     *
+     * @param LoginRequest $request
+     *
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request): JsonResponse {
         $credentials = $request->validated();
 
@@ -22,6 +29,11 @@ class UserAuthController extends Controller
                 ['user' => UserResource::make(auth()->user()), 'token' => $token]);
     }
 
+    /**
+     * User logout
+     *
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse {
         $user = auth()->user();
 

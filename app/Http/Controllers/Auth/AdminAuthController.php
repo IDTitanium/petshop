@@ -11,6 +11,13 @@ use Illuminate\Http\Response;
 
 class AdminAuthController extends Controller
 {
+    /**
+     * Admin login
+     *
+     * @param LoginRequest $request
+     *
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request): JsonResponse {
         $credentials = $request->validated();
 
@@ -26,6 +33,11 @@ class AdminAuthController extends Controller
                 ['admin' => UserResource::make(auth()->user()), 'token' => $token]);
     }
 
+    /**
+     * Admin logout
+     *
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse {
         $adminUser = auth()->user();
 

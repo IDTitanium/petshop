@@ -22,24 +22,53 @@ class UserAccountController extends Controller
     {
     }
 
+    /**
+     * Get users list
+     *
+     * @param GetUsersRequest $request
+     *
+     * @return JsonResponse
+     */
     public function getUsers(GetUsersRequest $request): JsonResponse {
         $data = $this->userRepository->getUserList($request->validated());
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.users_retrieved'), $data);
     }
 
+    /**
+     * Edit user
+     *
+     * @param EditUserRequest $request
+     *
+     * @return JsonResponse
+     */
     public function editUser(EditUserRequest $request): JsonResponse {
         $data = $this->userRepository->editUserDetails($request->validated());
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.user_updated'), $data);
     }
 
+    /**
+     * Delete user
+     *
+     * @param DeleteUserRequest $request
+     * @param string $uuid
+     *
+     * @return JsonResponse
+     */
     public function deleteUser(DeleteUserRequest $request, string $uuid): JsonResponse {
         $this->userRepository->deleteUserByUuid($uuid);
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.user_deleted'));
     }
 
+    /**
+     * Create admin user
+     *
+     * @param CreateUserRequest $request
+     *
+     * @return JsonResponse
+     */
     public function createAdmin(CreateUserRequest $request): JsonResponse {
         $data = $request->validated();
         $data['is_admin'] = true;

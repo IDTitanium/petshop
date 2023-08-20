@@ -17,12 +17,13 @@ class UserController extends Controller
     {
     }
 
-    public function create(CreateUserRequest $request): JsonResponse {
-        $data = $this->userService->createUser($request->validated());
-
-        return $this->sendApiResponse(true, Response::HTTP_CREATED, __('messages.user_created'), $data);
-    }
-
+    /**
+     * List user orders
+     *
+     * @param ListUserOrdersRequest $request
+     *
+     * @return JsonResponse
+     */
     public function listUserOrders(ListUserOrdersRequest $request): JsonResponse {
         $data = app(OrderRepository::class)->getOrdersForUser(auth()->id());
 
