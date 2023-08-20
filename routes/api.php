@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\UserAccountController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/v1/user/login', [UserAuthController::class, 'login']);
 
 Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function () {
-    Route::get('orders', []);
+    Route::get('orders', [UserController::class, 'listUserOrders']);
     Route::get('logout', [UserAuthController::class, 'logout']);
 });
 
