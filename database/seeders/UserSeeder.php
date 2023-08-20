@@ -18,6 +18,6 @@ class UserSeeder extends Seeder
     {
         User::whereIsAdmin(false)->delete();
 
-        User::factory(10)->create();
+        User::factory(3)->create();
     }
 }

@@ -20,6 +20,6 @@ class ProductSeeder extends Seeder
         Product::truncate();
         Schema::enableForeignKeyConstraints();
 
-        Product::factory(10)->create();
+        Product::factory(3)->create();
     }
 }
