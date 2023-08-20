@@ -10,6 +10,7 @@ use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\GetUsersRequest;
 use App\Repositories\UserRepository;
 use App\Traits\SendApiResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -21,25 +22,25 @@ class UserAccountController extends Controller
     {
     }
 
-    public function getUsers(GetUsersRequest $request) {
+    public function getUsers(GetUsersRequest $request): JsonResponse {
         $data = $this->userRepository->getUserList($request->validated());
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.users_retrieved'), $data);
     }
 
-    public function editUser(EditUserRequest $request) {
+    public function editUser(EditUserRequest $request): JsonResponse {
         $data = $this->userRepository->editUserDetails($request->validated());
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.user_updated'), $data);
     }
 
-    public function deleteUser(DeleteUserRequest $request, $uuid) {
+    public function deleteUser(DeleteUserRequest $request, string $uuid): JsonResponse {
         $this->userRepository->deleteUserByUuid($uuid);
 
         return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.user_deleted'));
     }
 
-    public function createAdmin(CreateUserRequest $request) {
+    public function createAdmin(CreateUserRequest $request): JsonResponse {
         $data = $request->validated();
         $data['is_admin'] = true;
 

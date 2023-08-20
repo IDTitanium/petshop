@@ -18,7 +18,7 @@ class AdminAuthController extends Controller
             return $this->sendApiResponse(false, Response::HTTP_UNAUTHORIZED, __('messages.unauthorized'));
         }
 
-        if (!auth()->user()->is_admin) {
+        if (!auth()->user()?->is_admin) {
             return $this->sendApiResponse(false, Response::HTTP_UNAUTHORIZED, __('messages.unauthorized'));
         }
 

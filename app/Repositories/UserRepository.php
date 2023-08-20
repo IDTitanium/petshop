@@ -10,10 +10,24 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class UserRepository
 {
+    /**
+     * Create user
+     *
+     * @param array<string|int> $data
+     *
+     * @return User
+     */
     public function create(array $data): User {
         return User::create($data);
     }
 
+    /**
+     * Get user list
+     *
+     * @param array<string|int|array> $data
+     *
+     * @return LengthAwarePaginator
+     */
     public function getUserList(array $data): LengthAwarePaginator {
         $query = User::whereIsAdmin(false);
 
@@ -26,10 +40,24 @@ class UserRepository
         return $query->paginate($paginationLength);
     }
 
+    /**
+     * Get user by uuid
+     *
+     * @param string $uuid
+     *
+     * @return User|null
+     */
     public function getUserByUuid(string $uuid): User|null {
         return User::whereUuid($uuid)->first();
     }
 
+    /**
+     * Edit User details
+     *
+     * @param array<string> $data
+     *
+     * @return User
+     */
     public function editUserDetails(array $data): User|null {
         $user = $this->getUserByUuid($data['user_uuid']);
 
@@ -46,10 +74,25 @@ class UserRepository
         return $user->refresh();
     }
 
+    /**
+     * Delete user by uuid
+     *
+     * @param string $uuid
+     *
+     * @return void
+     */
     public function deleteUserByUuid(string $uuid): void {
         User::whereUuid($uuid)->delete();
     }
 
+    /**
+     * Apply get user filters to query
+     *
+     * @param EloquentBuilder $query
+     * @param array $filters
+     *
+     * @return EloquentBuilder
+     */
     private function applyGetUserFiltersToQuery(EloquentBuilder $query, array $filters): EloquentBuilder {
         if (isset($filters['name'])) {
             $splitName = explode(' ', $filters['name']);

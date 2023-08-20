@@ -9,7 +9,14 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrderRepository
 {
-    public function getOrdersForUser(int $userId): LengthAwarePaginator {
+    /**
+     * Get orders for user
+     *
+     * @param int|null $userId
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getOrdersForUser(?int $userId): LengthAwarePaginator {
         return Order::where('user_id', $userId)->paginate(config('pagination.items_per_page'));
     }
 }
