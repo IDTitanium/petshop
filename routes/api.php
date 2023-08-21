@@ -41,5 +41,4 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], fu
     Route::delete('user-delete/{uuid}', [UserAccountController::class, 'deleteUser']);
 
     Route::post('create', [UserAccountController::class, 'createAdmin']);
-
 });

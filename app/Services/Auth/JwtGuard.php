@@ -15,15 +15,13 @@ class JwtGuard implements Guard
 
     public function __construct(public UserProvider $provider)
     {
-
     }
 
     /**
      * Determine if the current user is authenticated.
-     *
-     * @return bool
      */
-    public function check() {
+    public function check(): bool
+    {
         try {
             $token = $this->getTokenFromRequest();
 
@@ -41,21 +39,18 @@ class JwtGuard implements Guard
 
     /**
      * Determine if the current user is a guest.
-     *
-     * @return bool
      */
-    public function guest(){
-        $this->getTokenFromRequest() ? false: true;
+    public function guest(): bool
+    {
+        $this->getTokenFromRequest() ? false : true;
     }
 
     /**
      * Get the currently authenticated user.
-     *
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
-    public function user(){
+    public function user(): ?\Illuminate\Contracts\Auth\Authenticatable
+    {
         try {
-
             if ($this->user) {
                 return $this->user;
             }
@@ -69,7 +64,6 @@ class JwtGuard implements Guard
             $this->setUser($user);
 
             return $user;
-
         } catch (Throwable $e) {
             return null;
         }
@@ -77,22 +71,17 @@ class JwtGuard implements Guard
 
     /**
      * Get the ID for the currently authenticated user.
-     *
-     * @return int|string|null
      */
-    public function id() {
+    public function id(): int|string|null
+    {
         try {
-
             if ($this->user) {
                 return $this->user->id;
             }
 
             $token = $this->getTokenFromRequest();
 
-            $id = app(JwtService::class)->getSubFromToken($token);
-
-            return $id;
-
+            return app(JwtService::class)->getSubFromToken($token);
         } catch (Throwable $e) {
             return null;
         }
@@ -102,28 +91,25 @@ class JwtGuard implements Guard
      * Validate a user's credentials.
      *
      * @param  array  $credentials
-     * @return bool
      */
-    public function validate(array $credentials = []){
+    public function validate(array $credentials = []): bool
+    {
         return (bool) $this->attempt($credentials, false);
     }
 
     /**
      * Determine if the guard has a user instance.
-     *
-     * @return bool
      */
-    public function hasUser(){
-        return $this->user ? true: false;
+    public function hasUser(): bool
+    {
+        return $this->user ? true : false;
     }
 
     /**
      * Set the current user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @return void
      */
-    public function setUser(Authenticatable $user){
+    public function setUser(Authenticatable $user): void
+    {
         $this->user = $user;
     }
 
@@ -131,10 +117,8 @@ class JwtGuard implements Guard
      * Attempt to authenticate the user using the given credentials and return the token.
      *
      * @param  array  $credentials
-     * @param  bool  $login
-     * @return bool|string
      */
-    public function attempt(array $credentials = [], $login = true)
+    public function attempt(array $credentials = [], bool $login = true): bool|string
     {
         $user = $this->provider->retrieveByCredentials($credentials);
 
@@ -147,20 +131,11 @@ class JwtGuard implements Guard
     }
 
     /**
-     * Get token from request
-     */
-    private function getTokenFromRequest(): string|null {
-        return request()->bearerToken();
-    }
-
-    /**
      * Determine if the user matches the credentials.
      *
-     * @param  Authenticatable|null  $user
      * @param  array  $credentials
-     * @return bool
      */
-    protected function hasValidCredentials(Authenticatable|null $user, array $credentials)
+    protected function hasValidCredentials(Authenticatable|null $user, array $credentials): bool
     {
         return $user !== null && $this->provider->validateCredentials($user, $credentials);
     }
@@ -168,7 +143,16 @@ class JwtGuard implements Guard
     /**
      * Get user token
      */
-    protected function login(Authenticatable|null $user): string {
+    protected function login(Authenticatable|null $user): string
+    {
         return app(JwtService::class)->getTokenForUser($user->id);
+    }
+
+    /**
+     * Get token from request
+     */
+    private function getTokenFromRequest(): string|null
+    {
+        return request()->bearerToken();
     }
 }
