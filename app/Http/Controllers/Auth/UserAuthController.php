@@ -32,16 +32,4 @@ class UserAuthController extends Controller
             ['user' => UserResource::make(auth()->user()), 'token' => $token]
         );
     }
-
-    /**
-     * User logout
-     */
-    public function logout(): JsonResponse
-    {
-        $user = auth()->user();
-
-        auth()->logout();
-
-        return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.logout_successful'), UserResource::make($user));
-    }
 }

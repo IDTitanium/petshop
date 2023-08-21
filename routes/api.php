@@ -26,7 +26,6 @@ Route::post('/v1/user/login', [UserAuthController::class, 'login']);
 
 Route::group(['prefix' => 'v1/user', 'middleware' => 'auth:api'], function (): void {
     Route::get('orders', [UserController::class, 'listUserOrders']);
-    Route::get('logout', [UserAuthController::class, 'logout']);
 });
 
 /**
@@ -43,5 +42,4 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'admin']], fu
 
     Route::post('create', [UserAccountController::class, 'createAdmin']);
 
-    Route::get('logout', [AdminAuthController::class, 'logout']);
 });

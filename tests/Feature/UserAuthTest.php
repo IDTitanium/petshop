@@ -54,37 +54,4 @@ class UserAuthTest extends TestCase
         $response->assertSuccessful();
         $response->assertSeeText('token');
     }
-
-    /**
-     * Can logout of user account
-     */
-    public function test_can_logout_of_user_account(): void
-    {
-        User::factory(1)->create();
-
-        $response = $this->post('/api/v1/user/login', [
-            'email' => User::whereIsAdmin(false)->first()->email,
-            'password' => 'userpassword',
-        ]);
-
-        $response->assertSuccessful();
-
-        $body = $response->decodeResponseJson();
-
-        $response = $this->get('/api/v1/user/logout', [
-            'Authorization' => 'Bearer '.$body['data']['token']
-        ]);
-
-        $response->assertSuccessful();
-        $response->assertSeeText(__('messages.logout_successful'));
-
-        /**
-         * Try to use the token to call an endpoint with the same token
-         */
-        $response = $this->get('/api/v1/user/orders', [
-            'Authorization' => 'Bearer '.$body['data']['token']
-        ]);
-
-        $response->assertUnauthorized();
-    }
 }

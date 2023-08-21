@@ -36,16 +36,4 @@ class AdminAuthController extends Controller
             ['admin' => UserResource::make(auth()->user()), 'token' => $token]
         );
     }
-
-    /**
-     * Admin logout
-     */
-    public function logout(): JsonResponse
-    {
-        $adminUser = auth()->user();
-
-        auth()->logout();
-
-        return $this->sendApiResponse(true, Response::HTTP_OK, __('messages.logout_successful'), UserResource::make($adminUser));
-    }
 }

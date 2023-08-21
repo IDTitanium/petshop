@@ -274,9 +274,11 @@ class UserAccountTest extends TestCase
             'password' => 'admin'
         ]);
 
+        $response->assertSuccessful();
+
         $body = $response->decodeResponseJson();
 
-        $response = $this->delete("/api/v1/admin/user-delete/{$admin->uuid}", [
+        $response = $this->delete("/api/v1/admin/user-delete/{$admin->uuid}", [], [
             'Authorization' => 'Bearer '.$body['data']['token']
         ]);
 
@@ -299,7 +301,7 @@ class UserAccountTest extends TestCase
 
         $body = $response->decodeResponseJson();
 
-        $response = $this->delete("/api/v1/admin/user-delete/".fake()->uuid(), [
+        $response = $this->delete("/api/v1/admin/user-delete/".fake()->uuid(), [], [
             'Authorization' => 'Bearer '.$body['data']['token']
         ]);
 
@@ -324,7 +326,7 @@ class UserAccountTest extends TestCase
 
         $body = $response->decodeResponseJson();
 
-        $response = $this->delete("/api/v1/admin/user-delete/{$user->uuid}", [
+        $response = $this->delete("/api/v1/admin/user-delete/{$user->uuid}", [], [
             'Authorization' => 'Bearer '.$body['data']['token']
         ]);
 
