@@ -6,7 +6,7 @@
 
 - Run `cp .env.example .env`. This should set up the environment variables.
 - Run `docker compose up`. This should bring up the app and its other services (Redis and MySQL).
-- Run the command `alias petshop_php="docker exec petshop_app php"`. This should set an alias to make running php artisan commands more convenient.
+- Run the command `alias petshop_php="docker exec petshop_app php"`. This should set an alias to make running php artisan commands more convenient. Alternatively, you can exec into the container first and then run the normal `php artisan` commands.
 - Run `petshop_php artisan migrate`. This should run the migration to setup the database. Notice that we are using the alias defined in the previous step.
 - Run `petshop_php artisan key:generate`. To Setup application key in the environment variables.
 - You should see the `JWT_SECRET` key in your `.env` file. You should manually add it if not found. Any randomly long string will do.
@@ -26,7 +26,10 @@ Then follow the instructions
 - Run `php artisan key:generate`. To Setup application key in the environment variables.
 - You should see the `JWT_SECRET` key in your `.env` file. You should manually add it if not found. Any randomly long string will do.
 - Run `php artisan db:seed`. This will seed the required user data into your database.
-- Run `php artisan db:seed`. This will seed the required user data into your database.
+
+
+### API Documentation
+All API endpoints are documented, adn can be found in the `references` folder.
 
 
 ### Running Tests
@@ -44,3 +47,9 @@ This project has PHP insights package installed. To run php insights
 
 This project also has Larastan installed. You can run it using the command `./vendor/bin/larastan`
 
+
+### Petshop Notifier Package
+
+A petshop notifer package has been developed as part of this project. You can find access to it's full README documentation here => https://github.com/IDTitanium/petshopnotififer#readme. 
+
+The documentation explains how to set it up for this project.
