@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/usr/src/app
       - ./public:/usr/src/app/public
-      - ../packages/petshop-notifier:/usr/src/app/packages/petshop-notifier
+      - ../packages/petshopnotifier:/usr/src/app/packages/petshopnotifier
     depends_on:
       - petshopdb
       - petshop_redis

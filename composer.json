@@ -76,7 +76,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "packages/petshop-notifier"
+            "url": "packages/petshopnotifier"
         }
     ]
 }

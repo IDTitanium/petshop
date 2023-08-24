@@ -53,6 +53,6 @@ This project also has Larastan installed. You can run it using the command `./ve
 
 ### Petshop Notifier Package
 
-A petshop notifer package has been developed as part of this project. You can find access to it's full README documentation here => https://github.com/IDTitanium/petshopnotififer#readme. 
+A petshop notifer package has been developed as part of this project. You can find access to it's full README documentation here => https://github.com/IDTitanium/petshopnotifier#readme. 
 
 The documentation explains how to set it up for this project.
