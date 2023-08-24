@@ -44,9 +44,9 @@ services:
       - 3306:3306
     environment:
       MYSQL_DATABASE: petshop
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: userpassword
+      MYSQL_USER: petshopuser
+      MYSQL_PASSWORD: userpassword
       MYSQL_ROOT_HOST: '%'
     networks:
       - app_network
