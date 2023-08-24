@@ -6,6 +6,7 @@
 
 - Run `cp .env.example .env`. This should set up the environment variables.
 - Run `docker compose up`. This should bring up the app and its other services (Redis and MySQL).
+- Run ```docker exec -it petshop_app bash``` to enter into the docker container for the laravel app. And then run `composer install`.
 - Run the command `alias petshop_php="docker exec petshop_app php"`. This should set an alias to make running php artisan commands more convenient. Alternatively, you can exec into the container first and then run the normal `php artisan` commands.
 - Run `petshop_php artisan migrate`. This should run the migration to setup the database. Notice that we are using the alias defined in the previous step.
 - Run `petshop_php artisan key:generate`. To Setup application key in the environment variables.
@@ -22,6 +23,8 @@
 Then follow the instructions
 
 - Run `cp .env.example .env`. This should set up the environment variables.
+- Run `composer install`.
+- Set up your database with the db credentials in the .env file.
 - Run `php artisan migrate`. This should run the migration to setup the database. Notice that we are using the alias defined in the previous step.
 - Run `php artisan key:generate`. To Setup application key in the environment variables.
 - You should see the `JWT_SECRET` key in your `.env` file. You should manually add it if not found. Any randomly long string will do.

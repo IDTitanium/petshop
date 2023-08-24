@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "40215a577490bf79da3ffa74c2857058",
+    "content-hash": "dcdd3a10524eeac0b83d676b3089e86a",
     "packages": [
         {
             "name": "brick/math",
@@ -973,34 +973,6 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
-        },
-        {
-            "name": "idtitanium/petshopnotifier",
-            "version": "1.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/petshop-notifier",
-                "reference": "a89c124081609a4fa6b806052de42d4d04f0b1a4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "IDTitanium\\PetShopNotifier\\": "src"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Idris Lawal",
-                    "email": "idriseun222@gmail.com"
-                }
-            ],
-            "description": "A package for petshop notifications",
-            "transport-options": {
-                "relative": true
-            }
         },
         {
             "name": "laravel/framework",
@@ -9864,16 +9836,16 @@
         },
         {
             "name": "spatie/laravel-ignition",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ignition.git",
-                "reference": "dd15fbe82ef5392798941efae93c49395a87d943"
+                "reference": "4ed813d16edb5a1ab0d7f4b1d116c37ee8cdf3c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/dd15fbe82ef5392798941efae93c49395a87d943",
-                "reference": "dd15fbe82ef5392798941efae93c49395a87d943",
+                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/4ed813d16edb5a1ab0d7f4b1d116c37ee8cdf3c0",
+                "reference": "4ed813d16edb5a1ab0d7f4b1d116c37ee8cdf3c0",
                 "shasum": ""
             },
             "require": {
@@ -9952,7 +9924,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-28T13:51:52+00:00"
+            "time": "2023-08-23T06:24:34+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
