@@ -45,10 +45,10 @@ You can run `petshop_php artisan test`. To run all tests.
 ### Running Code Checker 
 
 This project has PHP insights package installed. To run php insights
-- Exec into the container `docker exec petshop_app`
-- Run `./vendor/bin/phpinsight`
+- Exec into the container `docker exec -it petshop_app bash`
+- Run `./vendor/bin/phpinsights`
 
-This project also has Larastan installed. You can run it using the command `./vendor/bin/larastan`
+This project also has Larastan installed. You can run it using the command `./vendor/bin/phpstan analyse`
 
 
 ### Petshop Notifier Package
