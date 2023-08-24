@@ -51,6 +51,11 @@ This project has PHP insights package installed. To run php insights
 This project also has Larastan installed. You can run it using the command `./vendor/bin/phpstan analyse`
 
 
+### Running Task Scheduler Locally
+This project has a scheduled database seeder that runs every midnight at UTC time.
+To run the task scheduler locally you can use the command `php artisan schedule:work`. This executes tasks every minute. Or  `php artisan schedule:run`, this will execute any pending tasks and exit.
+
+
 ### Petshop Notifier Package
 
 A petshop notifer package has been developed as part of this project. You can find access to it's full README documentation here => https://github.com/IDTitanium/petshopnotifier#readme. 
